@@ -19,7 +19,8 @@ tasks:
   setup:
     desc: Setup vss project
     cmds:
-      - v install markdown
+      - v install
+      - v install --git https://github.com/vpkgs/cmark_gfm
 
   doc:
     desc: Update module document
