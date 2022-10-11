@@ -5,7 +5,7 @@ import cli
 import log
 import time
 import regex
-import markdown
+import cmark_gfm as gfm
 import internal.template
 import internal.config
 
@@ -96,14 +96,18 @@ fn get_md_content(path string) ?string {
 	return pre_proc_md_to_html(md)
 }
 
-fn get_content(path string) ?string {
-	md := get_md_content(path)?
-	return markdown.to_html(md)
-}
-
 fn (mut b Builder) md2html(md_path string) ? {
 	// get html body content from md
-	content := get_content(md_path)?
+	md := get_md_content(md_path)?
+	options := C.CMARK_OPT_VALIDATE_UTF8 | C.CMARK_OPT_GITHUB_PRE_LANG | C.CMARK_OPT_TABLE_PREFER_STYLE_ATTRIBUTES | C.CMARK_OPT_FULL_INFO_STRING | C.CMARK_OPT_SMART | C.CMARK_OPT_LIBERAL_HTML_TAG | C.CMARK_OPT_FOOTNOTES | C.CMARK_OPT_UNSAFE
+	gfm.register_extensions()
+
+	parser := gfm.new_parser_with_option(options)
+	syntax_extension := gfm.find_syntax_extension(c'table')
+	parser.attach_syntax_extension(syntax_extension)
+	parser.feed(md)
+	root_node := parser.finish()
+	content := root_node.render_html(options, parser.get_syntax_extensions())
 	// want to change from contents to content
 	b.config_map['contents'] = content
 	html := template.parse(b.template_content, b.config_map)

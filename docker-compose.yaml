@@ -1,0 +1,8 @@
+version: "3"
+services:
+  v:
+    image: thevlang/vlang:buster
+    tty: true # Keeps your container running
+    volumes:
+      - .:/home/v
+    working_dir: /home/v
