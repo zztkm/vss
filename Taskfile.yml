@@ -15,11 +15,11 @@ tasks:
       - echo {{.ARCHIVE_DIR}}
     vars:
       ARCHIVE_DIR: "{{.TARGET}}_{{OS}}_{{ARCH}}"
-  
+
   setup:
     desc: Setup vss project
     cmds:
-      - v install markdown
+      - v install .
 
   doc:
     desc: Update module document
@@ -35,21 +35,18 @@ tasks:
   vet:
     desc: Report suspicious code constructs
     cmds:
-      - v vet *.v
+      - v vet .
 
   format:
     desc: Format .v files
     cmds:
-      - v fmt -w *.v
-      - v fmt -w commands
-      - v fmt -w internal/template
-      - v fmt -w internal/config/
-    
+      - v fmt -w .
+
   clean:
     desc: Clean test files
     cmds:
       - rm -rf dist/
-  
+
   dist:
     desc: Mkdir dist
     cmds:
@@ -61,7 +58,7 @@ tasks:
     desc: Build vss
     cmds:
       - v . -o {{.TARGET}}
-    
+
   prod-build:
     desc: Build vss for production
     cmds:
