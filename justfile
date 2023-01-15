@@ -1,9 +1,9 @@
 target := "vss"
 archive_name := target + "_" + os() + "_" + arch()
 # refs: https://github.com/casey/just/blob/master/examples/cross-platform.just
-archive_dir := if os_family() == "windows" { archive_name } else { "dist" / archive_name }
-windows_archive_cmd := "powershell Compress-Archive -Path {{archive_dir}} -DestinationPath {{archive_dir}}.zip"
-unix_archive_cmd := "tar -zcvf {{archive_dir}}.tar.gz {{archive_dir}} && mv {{archive_dir}}.tar.gz dist"
+archive_dir := if os_family() == "windows" { "dist" / archive_name } else { archive_name }
+windows_archive_cmd := "powershell Compress-Archive -Path " + archive_dir + " -DestinationPath " + archive_dir + ".zip"
+unix_archive_cmd := "tar -zcvf " + archive_dir + ".tar.gz " + archive_dir + " && mv " + archive_dir + ".tar.gz dist"
 archive_cmd := if os_family() == "windows" { windows_archive_cmd } else { unix_archive_cmd }
 
 # default recipe to display help information
@@ -12,7 +12,7 @@ default:
 
 # setup vss project
 setup:
-	v install .
+	v install
 
 # run test
 test:

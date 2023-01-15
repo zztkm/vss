@@ -19,7 +19,7 @@ tasks:
   setup:
     desc: Setup vss project
     cmds:
-      - v install .
+      - v install
 
   doc:
     desc: Update module document
