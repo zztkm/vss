@@ -26,7 +26,7 @@ disruptive changes may be made!
 Currently, be sure to configure the following
 
 ```
-❯ tree  
+❯ tree
 .
 ├── about.md
 ├── config.toml
@@ -155,3 +155,4 @@ v install markdown
 
 v . -o vss
 ```
+
